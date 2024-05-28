@@ -1,16 +1,34 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      setFormIsValid(email.includes("@") && password.trim().length);
+    }, 500);
+
+    return () => {
+      clearTimeout(identifier)
+    };
+  }, [email, password]);
+
+  const emailChangeHandler = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  };
 
   const signIn = (e) => {
     e.prefentDefault();
-    const enteredEmail = emailRef.current.value;
-    const enteredPassword = passwordRef.current.value;
   };
+
   return (
     <div className="login">
       <Link to="/">
@@ -25,14 +43,12 @@ const Login = () => {
         <h1>Sign-in</h1>
         <form>
           <h5>Email</h5>
-          <input
-            type="text"
-            ref={emailRef}
-          />
+          <input type="text" value={email} onChange={emailChangeHandler} />
           <h5>Password</h5>
           <input
             type="password"
-            ref={passwordRef}
+            value={password}
+            onChange={passwordChangeHandler}
           />
           <button type="submit" className="login-signInButton" onClick={signIn}>
             Sign In
