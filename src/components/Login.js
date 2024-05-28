@@ -1,28 +1,46 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
+const reducer = (state, action) => {
+  if (action.type === "EMAIL_INPUT") {
+    return { ...state, emailValue: action.payload };
+  }
+  if (action.type === "PASS_INPUT") {
+    return { ...state, passwordValue: action.payload };
+  }
+
+  return {
+    emailValue: "",
+    passwordValue: "",
+  };
+};
+
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
 
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      setFormIsValid(email.includes("@") && password.trim().length);
-    }, 500);
+  const [state, dispatch] = useReducer(reducer, {
+    emailValue: "",
+    passwordValue: "",
+  });
 
+  const {emailValue: email, passwordValue: password} = state
+
+  useEffect (() => {
+    const identifier = setTimeout(() => {
+      setFormIsValid(state.emailValue.includes("@") && state.passwordValue.trim().length > 6);
+    }, 500);
     return () => {
       clearTimeout(identifier)
-    };
-  }, [email, password]);
+    }
+  },[email, password])
 
   const emailChangeHandler = (e) => {
-    setEmail(e.target.value);
+    dispatch({ type: "EMAIL_INPUT", payload: e.target.value });
   };
 
   const passwordChangeHandler = (e) => {
-    setPassword(e.target.value);
+    dispatch({ type: "PASS_INPUT", payload: e.target.value });
   };
 
   const signIn = (e) => {
@@ -43,11 +61,15 @@ const Login = () => {
         <h1>Sign-in</h1>
         <form>
           <h5>Email</h5>
-          <input type="text" value={email} onChange={emailChangeHandler} />
+          <input
+            type="text"
+            value={state.emailValue}
+            onChange={emailChangeHandler}
+          />
           <h5>Password</h5>
           <input
             type="password"
-            value={password}
+            value={state.passwordValue}
             onChange={passwordChangeHandler}
           />
           <button type="submit" className="login-signInButton" onClick={signIn}>
