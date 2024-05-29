@@ -16,7 +16,7 @@ const reducer = (state, action) => {
   };
 };
 
-const Login = () => {
+const Login = (onLogin) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [state, dispatch] = useReducer(reducer, {
@@ -45,6 +45,7 @@ const Login = () => {
 
   const signIn = (e) => {
     e.prefentDefault();
+    onLogin(state.emailValue, state.passwordValue)
   };
 
   return (
