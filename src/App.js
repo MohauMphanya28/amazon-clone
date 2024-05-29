@@ -9,37 +9,58 @@ import Login from "./components/Login";
 import Orders from "./components/Orders";
 import Basket from "./components/Basket";
 import PageNotFound from "./components/PageNotFound";
+import { useEffect, useState } from "react";
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("isLoggedIn");
+
+    if (userInfo === "1") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const loginHandler = (email, password) => {
+    localStorage.setItem("isLoggedIn", "1");
+    setIsLoggedIn(true);
+  };
+
+  const logoutHandler = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn("false");
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header isAuthenticated={isLoggedIn} onLogout={logoutHandler}/>
       <main>
         <Switch>
-        <Route path="/" exact>
-          <Redirect to="/home" />
-        </Route>
-        <Route path="/home" exact>
-          <Home />
-        </Route>
-        <Route path="/products" exact>
-          <Products />
-        </Route>
-        <Route path="/product-details/:id" exact>
-          <ProductDetails />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/orders">
-          <Orders />
-        </Route>
-        <Route path="/basket">
-          <Basket />
-        </Route>
-        <Route path="*">
-          <PageNotFound />
-        </Route>
+          <Route path="/" exact>
+            <Redirect to="/home" />
+          </Route>
+          <Route path="/home" exact>
+            <Home />
+          </Route>
+          <Route path="/products" exact>
+            <Products />
+          </Route>
+          <Route path="/product-details/:id" exact>
+            <ProductDetails />
+          </Route>
+          <Route path="/login">
+            <Login onLogin={loginHandler} />
+          </Route>
+          <Route path="/orders">
+            <Orders />
+          </Route>
+          <Route path="/basket">
+            <Basket />
+          </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
         </Switch>
       </main>
     </div>

@@ -63,13 +63,13 @@ const Login = () => {
           <h5>Email</h5>
           <input
             type="text"
-            value={state.emailValue}
+            value={email}
             onChange={emailChangeHandler}
           />
           <h5>Password</h5>
           <input
             type="password"
-            value={state.passwordValue}
+            value={password}
             onChange={passwordChangeHandler}
           />
           <button type="submit" className="login-signInButton" onClick={signIn}>
