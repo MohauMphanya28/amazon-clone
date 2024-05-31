@@ -1,6 +1,7 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import AuthContext from "../context/authContext";
 
 const reducer = (state, action) => {
   if (action.type === "EMAIL_INPUT") {
@@ -16,7 +17,9 @@ const reducer = (state, action) => {
   };
 };
 
-const Login = (onLogin) => {
+const Login = () => {
+  const ctx = useContext(AuthContext);
+
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [state, dispatch] = useReducer(reducer, {
@@ -24,16 +27,16 @@ const Login = (onLogin) => {
     passwordValue: "",
   });
 
-  const {emailValue: email, passwordValue: password} = state
+  const { emailValue: email, passwordValue: password } = state;
 
-  useEffect (() => {
+  useEffect(() => {
     const identifier = setTimeout(() => {
-      setFormIsValid(state.emailValue.includes("@") && state.passwordValue.trim().length > 6);
+      setFormIsValid(email.includes("@") && password.trim().length > 6);
     }, 500);
     return () => {
-      clearTimeout(identifier)
-    }
-  },[email, password])
+      clearTimeout(identifier);
+    };
+  }, [email, password]);
 
   const emailChangeHandler = (e) => {
     dispatch({ type: "EMAIL_INPUT", payload: e.target.value });
@@ -44,8 +47,8 @@ const Login = (onLogin) => {
   };
 
   const signIn = (e) => {
-    e.prefentDefault();
-    onLogin(state.emailValue, state.passwordValue)
+    e.preventDefault();
+    ctx.onLogin(state.emailValue, state.passwordValue);
   };
 
   return (
@@ -62,11 +65,7 @@ const Login = (onLogin) => {
         <h1>Sign-in</h1>
         <form>
           <h5>Email</h5>
-          <input
-            type="text"
-            value={email}
-            onChange={emailChangeHandler}
-          />
+          <input type="text" value={email} onChange={emailChangeHandler} />
           <h5>Password</h5>
           <input
             type="password"

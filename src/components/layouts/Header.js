@@ -25,7 +25,7 @@ const Header = () => {
       <div className="header-nav">
         {ctx.isLoggedIn ? (
           <Link to="/">
-            <div className="header-option" onClick={ctx.onLogout}>
+            <div className="header-option" onClick={ctx.onLogin}>
               <span className="header-optionOne">Hello User</span>
               <span className="header-optionTwo">Sign Out</span>
             </div>

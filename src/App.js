@@ -9,32 +9,10 @@ import Login from "./components/Login";
 import Orders from "./components/Orders";
 import Basket from "./components/Basket";
 import PageNotFound from "./components/PageNotFound";
-import { useEffect, useState } from "react";
-import AuthContext from "./context/authContext";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const userInfo = localStorage.getItem("isLoggedIn");
-
-    if (userInfo === "1") {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const loginHandler = (email, password) => {
-    localStorage.setItem("isLoggedIn", "1");
-    setIsLoggedIn(true);
-  };
-
-  const logoutHandler = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn("false");
-  };
-
   return (
-    <AuthContext.Provider  value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}>
+    <>
       <Header />
       <main>
         <Switch>
@@ -51,7 +29,7 @@ const App = () => {
             <ProductDetails />
           </Route>
           <Route path="/login">
-            <Login onLogin={loginHandler} />
+            <Login />
           </Route>
           <Route path="/orders">
             <Orders />
@@ -64,7 +42,7 @@ const App = () => {
           </Route>
         </Switch>
       </main>
-    </AuthContext.Provider>
+    </>
   );
 };
 
