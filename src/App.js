@@ -10,6 +10,7 @@ import Orders from "./components/Orders";
 import Basket from "./components/Basket";
 import PageNotFound from "./components/PageNotFound";
 import { useEffect, useState } from "react";
+import AuthContext from "./context/authContext";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,8 +34,8 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <Header isAuthenticated={isLoggedIn} onLogout={logoutHandler}/>
+    <AuthContext.Provider  value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}>
+      <Header />
       <main>
         <Switch>
           <Route path="/" exact>
@@ -63,7 +64,7 @@ const App = () => {
           </Route>
         </Switch>
       </main>
-    </div>
+    </AuthContext.Provider>
   );
 };
 
