@@ -9,8 +9,25 @@ import Login from "./components/Login";
 import Orders from "./components/Orders";
 import Basket from "./components/Basket";
 import PageNotFound from "./components/PageNotFound";
+import ShoppingContext from "./context/shopping/shoppingContext";
+import { useEffect, useContext } from "react";
+import { auth } from "./Firebase";
 
 const App = () => {
+  const shoppingContext = useContext(ShoppingContext);
+  const { setUser } = shoppingContext;
+
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      console.log("User is ->", authUser);
+
+      if (authUser) {
+        setUser({authUser})
+      } else {
+        setUser(null)
+      }
+    })
+  }, [])
   return (
     <>
       <Header />

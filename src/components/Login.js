@@ -1,9 +1,8 @@
 import React, { useState, useReducer, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
-import ShoppingContext from "../context/shopping/shoppingContext";
 import { auth } from "../Firebase";
- 
+
 // const reducer = (state, action) => {
 //   // if (action.type === "EMAIL_INPUT") {
 //   //   return { ...state, emailValue: action.payload };
@@ -20,9 +19,7 @@ import { auth } from "../Firebase";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-const history = useHistory
-  const shoppingContext = useContext(ShoppingContext);
-  const { setUser } = shoppingContext;
+  const history = useHistory();
 
   const signIn = (e) => {
     e.preventDefault();
@@ -60,7 +57,11 @@ const history = useHistory
         <h1>Sign-in</h1>
         <form>
           <h5>Email</h5>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <h5>Password</h5>
           <input
             type="password"
@@ -75,7 +76,7 @@ const history = useHistory
             Sale. Please see our Privacy Notice, our Coockies Notice ans our
             Interest-Based Ads Notice
           </p>
-          <button className="login-registerButton">
+          <button className="login-registerButton" onClick={register}>
             Create your Amazon Account
           </button>
         </form>
