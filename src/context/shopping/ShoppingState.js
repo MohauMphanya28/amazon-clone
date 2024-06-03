@@ -10,6 +10,7 @@ export const ShoppingState = (props) => {
   const getBasketTotal = (basket) => {
     basket?.reduce((amount, item) => item.price + amount, 0);
   };
+
   const addToBasket = async (item) => {
     dispatch({
       type: "ADD_TO_BASKET",
@@ -17,12 +18,19 @@ export const ShoppingState = (props) => {
     });
   };
 
+  const removeFromBasket = (item) => {
+    dispatch({
+      type: "REMOVE_FROM_BASKET ",
+      payload: item,
+    });
+  }
+
   const setUser = (user) => {
     dispatch({
-      type: 'SET_USER',
+      type: "SET_USER",
       payload: user,
-    })
-  }
+    });
+  };
 
   return (
     <ShoppingContext.Provider
@@ -32,6 +40,7 @@ export const ShoppingState = (props) => {
         getBasketTotal,
         addToBasket,
         setUser,
+        removeFromBasket,
       }}
     >
       {props.children}
