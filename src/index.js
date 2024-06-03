@@ -3,14 +3,17 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import AuthContext, { AuthContextProvider } from "./context/authContext";
+import { AuthContextProvider } from "./context/authContext";
+import { ShoppingState } from "./context/shopping/ShoppingState";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-        <App />
+        <ShoppingState>
+          <App />
+        </ShoppingState>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,54 +1,49 @@
 import React, { useState, useReducer, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
-import AuthContext from "../context/authContext";
-
-const reducer = (state, action) => {
-  if (action.type === "EMAIL_INPUT") {
-    return { ...state, emailValue: action.payload };
-  }
-  if (action.type === "PASS_INPUT") {
-    return { ...state, passwordValue: action.payload };
-  }
-
-  return {
-    emailValue: "",
-    passwordValue: "",
-  };
-};
+import ShoppingContext from "../context/shopping/shoppingContext";
+import { auth } from "../Firebase";
+ 
+// const reducer = (state, action) => {
+//   // if (action.type === "EMAIL_INPUT") {
+//   //   return { ...state, emailValue: action.payload };
+//   // }
+//   // if (action.type === "PASS_INPUT") {
+//   //   return { ...state, passwordValue: action.payload };
+//   // }
+//   // return {
+//   //   emailValue: "",
+//   //   passwordValue: "",
+//   // };
+// };
 
 const Login = () => {
-  const ctx = useContext(AuthContext);
-
-  const [formIsValid, setFormIsValid] = useState(false);
-
-  const [state, dispatch] = useReducer(reducer, {
-    emailValue: "",
-    passwordValue: "",
-  });
-
-  const { emailValue: email, passwordValue: password } = state;
-
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      setFormIsValid(email.includes("@") && password.trim().length > 6);
-    }, 500);
-    return () => {
-      clearTimeout(identifier);
-    };
-  }, [email, password]);
-
-  const emailChangeHandler = (e) => {
-    dispatch({ type: "EMAIL_INPUT", payload: e.target.value });
-  };
-
-  const passwordChangeHandler = (e) => {
-    dispatch({ type: "PASS_INPUT", payload: e.target.value });
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+const history = useHistory
+  const shoppingContext = useContext(ShoppingContext);
+  const { setUser } = shoppingContext;
 
   const signIn = (e) => {
     e.preventDefault();
-    ctx.onLogin(state.emailValue, state.passwordValue);
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        history.push("/");
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const register = (e) => {
+    e.preventDefault();
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        if (auth) {
+          history.push("/");
+        }
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
@@ -65,12 +60,12 @@ const Login = () => {
         <h1>Sign-in</h1>
         <form>
           <h5>Email</h5>
-          <input type="text" value={email} onChange={emailChangeHandler} />
+          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
           <h5>Password</h5>
           <input
             type="password"
             value={password}
-            onChange={passwordChangeHandler}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit" className="login-signInButton" onClick={signIn}>
             Sign In
