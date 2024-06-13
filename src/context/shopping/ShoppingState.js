@@ -7,23 +7,22 @@ export const ShoppingState = (props) => {
   const [state, dispatch] = useReducer(shoppingReducer, initialState);
 
   // Selectors
-  const getBasketTotal = (basket) => {
+  const getBasketTotal = (basket) =>
     basket?.reduce((amount, item) => item.price + amount, 0);
-  };
 
-  const addToBasket = async (item) => {
+  const addToBasket = async ({ item }) => {
     dispatch({
       type: "ADD_TO_BASKET",
       payload: item,
     });
   };
 
-  const removeFromBasket = (item) => {
+  const removeFromBasket = ({ item }) => {
     dispatch({
       type: "REMOVE_FROM_BASKET ",
       payload: item,
     });
-  }
+  };
 
   const setUser = (user) => {
     dispatch({

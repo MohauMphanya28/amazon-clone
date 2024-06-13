@@ -10,9 +10,9 @@ import Basket from "./components/Basket";
 import PageNotFound from "./components/PageNotFound";
 import ShoppingContext from "./context/shopping/shoppingContext";
 import { useEffect, useContext } from "react";
-import { auth } from "./Firebase";
-import CheckoutProduct from "./components/CheckoutProduct";
+import { auth } from "./firebase";
 import Checkout from "./components/Checkout";
+import Payment from "./components/Payment";
 
 const App = () => {
   const shoppingContext = useContext(ShoppingContext);
@@ -20,10 +20,8 @@ const App = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      console.log("User is ->", authUser);
-
       if (authUser) {
-        setUser({authUser})
+        setUser(authUser)
       } else {
         setUser(null)
       }
@@ -51,6 +49,9 @@ const App = () => {
           </Route>
           <Route path="/checkout">
             <Checkout />
+          </Route>
+          <Route path="/payment">
+            <Payment />
           </Route>
           <Route path="/basket">
             <Basket />

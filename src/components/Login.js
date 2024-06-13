@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
-import { auth } from "../Firebase";
+import { auth } from "../firebase";
 
 // const reducer = (state, action) => {
 //   // if (action.type === "EMAIL_INPUT") {

@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import ShoppingContext from "../../context/shopping/shoppingContext";
 import "./Header.css";
-import { auth } from "../../Firebase";
+import { auth } from "../../firebase";
 
 const Header = () => {
   const shoppingContext = useContext(ShoppingContext);
@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <Link to="/">
+      <Link to="/" >
         <img
           src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
           alt="Amazon Logo"
@@ -40,7 +40,7 @@ const Header = () => {
             <span className="header-optionTwo">
               {user ? "Sign Out" : "Sign In"}
             </span>
-          </div>
+          </div >
         </Link>
 
         <Link to="/">
@@ -57,7 +57,7 @@ const Header = () => {
 
         <Link to="/checkout">
           <div className="header-optionBasket">
-            <ShoppingBasketIcon />{" "}
+            <ShoppingBasketIcon />
             <span className="header-optionTwo header-basketCount">
               {basket?.length}
             </span>

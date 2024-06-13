@@ -1,9 +1,11 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import CurrencyFormat from "react-currency-format";
 import "./Subtotal.css";
 import ShoppingContext from "../context/shopping/shoppingContext";
 
 const Subtotal = () => {
+  const history = useHistory();
   const shoppingContext = useContext(ShoppingContext);
   const { basket, getBasketTotal } = shoppingContext;
 
@@ -13,7 +15,7 @@ const Subtotal = () => {
         renderText={(value) => (
           <>
             <p>
-              Subtotal of ({basket?.length} items): <strong>{value}</strong>
+              Subtotal of ({basket.length} items): <strong>{value}</strong>
             </p>
             <small className="subtotal-gift">
               <input type="checkbox" />
@@ -26,7 +28,9 @@ const Subtotal = () => {
         displayType={"text"}
         prefix="R"
       />
-      <button>Proceed To Checkout</button>
+      <button onClick={(e) => history.push("/payment")}>
+        Proceed To Checkout
+      </button>
     </div>
   );
 };

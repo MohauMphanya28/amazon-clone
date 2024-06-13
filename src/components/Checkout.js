@@ -10,8 +10,8 @@ const Checkout = () => {
   return (
     <div className="checkout">
       <div className="checkout-left">
-        <img className="checkout-ad" src="" alt="" />
-        <div className="">
+        <img className="checkout-ad" src=" " alt="" />
+        <div >
           <h3>Hello, {user?.email}</h3>
           <h2 className="checkout-title">Your Shopping Cart</h2>
           
