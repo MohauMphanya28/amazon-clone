@@ -7,8 +7,13 @@ export const ShoppingState = (props) => {
   const [state, dispatch] = useReducer(shoppingReducer, initialState);
 
   // Selectors
-  const getBasketTotal = (basket) =>
-    basket?.reduce((amount, item) => item.price + amount, 0);
+  const getBasketTotal = (basket) => {
+    let total = 0;
+    basket.forEach((item) => {
+      total += item.price * 100; // Convert price to cents if stored as dollars
+    });
+    return (total / 100).toFixed(2); // Convert back to dollars and format
+  };
 
   const addToBasket = async ({ item }) => {
     dispatch({
@@ -17,7 +22,7 @@ export const ShoppingState = (props) => {
     });
   };
 
-  const removeFromBasket = ({ item }) => {
+  const removeFromBasket = (item) => {
     dispatch({
       type: "REMOVE_FROM_BASKET ",
       payload: item,

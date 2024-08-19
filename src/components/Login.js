@@ -72,9 +72,9 @@ const Login = () => {
             Sign In
           </button>
           <p>
-            By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use &
-            Sale. Please see our Privacy Notice, our Coockies Notice ans our
-            Interest-Based Ads Notice
+            By signing-in you agree to the AMAZON CLONE Conditions of Use &
+            Sale. Please see our Privacy Notice, our Coockies Notice and our
+            Interest-Based Ads Notice. 
           </p>
           <button className="login-registerButton" onClick={register}>
             Create your Amazon Account

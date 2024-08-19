@@ -1,13 +1,32 @@
-import React, { useContext } from "react";
-import "./Payment.css";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "../axios";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import ShoppingContext from "../context/shopping/shoppingContext";
 import CheckoutProduct from "./CheckoutProduct";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "./Payment.css";
+import { response } from "express";
 
 const Payment = () => {
   const shoppingContext = useContext(ShoppingContext);
-  const { basket, user } = shoppingContext;
+  const { basket, user, getBasketTotal } = shoppingContext;
+
+  const [succeeded, setSucceeded] = useState(false);
+  const [processing, setProcessing] = useState("");
+  const [error, setError] = useState(null);
+  const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecreet] = useState(true);
+
+  useEffect (() => {
+    //Generate the special Stripe secret which will allow us to charge a customer
+    const getClientSecret = async () => {
+      cost response = await axios ({
+        method: "POST",
+        url: `/payment/create?total=${getBasketTotal(basket)}'
+      })
+    }
+  })
+
   return (
     <div className="payment">
       <div className="payment-container">

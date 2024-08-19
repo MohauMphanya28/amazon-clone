@@ -18,7 +18,7 @@ import Payment from "./components/Payment";
 
 const promise = loadStripe(
   "pk_test_51PRG0UImD5msr2LANzEKqFdKELjXtMO7AjbGNoQOox117XKMsmdJJMlg8rFoxFMzRfpE1qzuxSYFPdGWfTMnK8sE00f4yzdLV5"
-); 
+);
 
 const App = () => {
   const shoppingContext = useContext(ShoppingContext);
@@ -59,7 +59,7 @@ const App = () => {
           <Route path="/payment">
             <Elements stripe={promise}>
               <Payment />
-            </Elements> 
+            </Elements>
           </Route>
           <Route path="/basket">
             <Basket />
