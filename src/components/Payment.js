@@ -5,6 +5,7 @@ import ShoppingContext from "../context/shopping/shoppingContext";
 import CheckoutProduct from "./CheckoutProduct";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "./Payment.css";
+import CurrencyFormat from "react-currency-format";
 
 const Payment = () => {
   const shoppingContext = useContext(ShoppingContext);
@@ -21,14 +22,19 @@ const Payment = () => {
     const getClientSecret = async () => {
       const response = await axios({
         method: "POST",
-        url: `/payment/create?total=${getBasketTotal(basket) * 100}`
+        url: `/payment/create?total=${getBasketTotal(basket) * 100}`,
       });
       setClientSecret(response.data.clientSecret);
     };
     getClientSecret();
-  },[basket]);
+  }, [basket]);
 
-  console.log("The secret is =>", clientSecret)
+  console.log("The secret is =>", clientSecret);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleChange = (e) => {};
   return (
     <div className="payment">
       <div className="payment-container">
@@ -66,7 +72,26 @@ const Payment = () => {
           <div className="payment-title">
             <h3>Payment Method</h3>
           </div>
-          <div className="payment-details">{/*Stripe Code */}</div>
+          <div className="payment-details">
+            {/*Stripe Code */}
+            <form onClick={handleSubmit}>
+              <CardElement onChange={handleChange} />
+              <div className="payment-price-container">
+                <CurrencyFormat
+                  renderText={(value) => <h3>Order Total: {value} </h3>}
+                  decimalScale={2}
+                  value={getBasketTotal(basket)}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                />
+                <button disabled={processing || disabled || succeeded}>
+                  <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
+                </button>
+              </div>
+              {error && <div>{error}</div>}
+            </form>
+          </div>
         </div>
       </div>
     </div>
