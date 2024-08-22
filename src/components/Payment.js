@@ -6,10 +6,14 @@ import CheckoutProduct from "./CheckoutProduct";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "./Payment.css";
 import CurrencyFormat from "react-currency-format";
+import Stripe from "stripe";
 
 const Payment = () => {
   const shoppingContext = useContext(ShoppingContext);
   const { basket, user, getBasketTotal } = shoppingContext;
+
+  const stripe = useStripe()
+  const elements = useElements()
 
   const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState("");
@@ -22,7 +26,7 @@ const Payment = () => {
     const getClientSecret = async () => {
       const response = await axios({
         method: "POST",
-        url: `/payment/create?total=${getBasketTotal(basket) * 100}`,
+        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
       });
       setClientSecret(response.data.clientSecret);
     };
@@ -30,8 +34,18 @@ const Payment = () => {
   }, [basket]);
 
   console.log("The secret is =>", clientSecret);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setProcessing(true)
+
+    const payload = await stripe.confirmCardPayment(clientSecret, {payment_method: {card: elements.getElement(CardElement)},
+  }).then(({paymentIntent}) => {
+    //Payment intent = payment confirmation
+    setSucceeded(true)
+    setError(null)
+    setProcessing(false);
+    History.pushState("/orders")
+  })
   };
 
   const handleChange = (e) => {};
