@@ -23,7 +23,7 @@ const Product = ({ id, image, title, rating, price }) => {
             ))}
         </div>
         <p className="product-price">
-          <small>R</small>
+          <small>$</small>
           <strong>{price}</strong>
         </p>
       </div>
