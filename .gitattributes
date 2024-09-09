@@ -1,0 +1,11 @@
+# Ensure text files use LF in the repository and convert CRLF to LF on commit
+* text=auto
+
+
+# Ensure specific files on patterns use LF or CRLF
+# For example, you can force LF for Markdown files
+*.md text eol=LF
+
+# For certain file types, you might want CRLF on Windows
+*.bat text eol=crlf
+*.cmd text eol=crlf 
