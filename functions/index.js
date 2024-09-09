@@ -18,43 +18,19 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 
 // API ROUTES
-app.get("/", (req, res) => res.status(200).send("Hello World! What's Good?"));
+app.get("/", (req, res) => res.status(200).send("Hello World!"));
 
-app.post("/payments/create", async (req, res) => {
+app.post("/payment/create", async (req, res) => {
   const total = req.query.total;
 
   console.log(`Payment request received for amount: ${total}`);
 
-  if (!total) {
-    console.error('Total amount is required');
-    res.status(400).send({ error: 'Total amount is required' });
-    return;
-  }
-
-  if (isNaN(total) || parseInt(total) <= 0) {
-    console.error('Total amount must be a positive number');
-    res.status(400).send({ error: 'Total amount must be a positive number' });
-    return;
-  }
-
-  try {
-    // Create a PaymentIntent with the order amount and currency
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: parseInt(total), // Ensure `total` is parsed as integer
-      currency: "usd",
-    });
-
-    // Respond with the client secret for the payment
-    res.status(201).send({
-      clientSecret: paymentIntent.client_secret,
-    });
-  } catch (error) {
-    // Log and return any errors
-    console.error('Error creating payment intent:', error);
-    res.status(500).send({
-      error: error.message,
-    });
-  }
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: total,
+    currency: "usd",
+  });
+  // If creater correctly
+  res.status(201).send({clientSecret: paymentIntent.client_secret })
 });
 
 // LISTEN COMMANDS
