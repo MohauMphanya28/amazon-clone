@@ -3,19 +3,6 @@ import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
 import { auth } from "../firebase";
 
-// const reducer = (state, action) => {
-//   // if (action.type === "EMAIL_INPUT") {
-//   //   return { ...state, emailValue: action.payload };
-//   // }
-//   // if (action.type === "PASS_INPUT") {
-//   //   return { ...state, passwordValue: action.payload };
-//   // }
-//   // return {
-//   //   emailValue: "",
-//   //   passwordValue: "",
-//   // };
-// };
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -26,7 +26,7 @@ const Subtotal = () => {
         decimalScale={2}
         value={getBasketTotal(basket)}
         displayType={"text"}
-        prefix="R"
+        prefix="$"
       />
       <button onClick={(e) => history.push("/payment")}>
         Proceed To Checkout

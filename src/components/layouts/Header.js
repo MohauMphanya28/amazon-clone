@@ -32,7 +32,7 @@ const Header = () => {
         <SearchIcon className="search-icon" />
       </div>
       <div className="header-nav">
-        <Link to={!user && "/login"}>
+        <Link to={!user && "/login"} style={{ textDecoration: 'none' }}>
           <div className="header-option" onClick={handleAuthentication}>
             <span className="header-optionOne">
               Hello {!user ? "Guest" : user.email}
@@ -43,7 +43,7 @@ const Header = () => {
           </div >
         </Link>
 
-        <Link to="/">
+        <Link to="/" style={{ textDecoration: 'none' }}>
           <div className="header-option">
             <span className="header-optionOne">Returns</span>
             <span className="header-optionTwo">& Orders</span>
@@ -55,7 +55,7 @@ const Header = () => {
           <span className="header-optionTwo">Prime</span>
         </div>
 
-        <Link to="/checkout">
+        <Link to="/checkout" style={{ textDecoration: 'none' }}>
           <div className="header-optionBasket">
             <ShoppingBasketIcon />
             <span className="header-optionTwo header-basketCount">

@@ -24,7 +24,7 @@ const CheckoutProduct = ({ id, image, title, rating, price, hideButton }) => {
             ))}
         </div>
         <p className="checkout-product-price">
-          <small><strong>R</strong></small>
+          <small><strong>$</strong></small>
           <strong>{price}</strong>
         </p>
         {!hideButton && (
