@@ -41,23 +41,38 @@ const Payment = () => {
     setProcessing(true);
 
     const payload = await stripe
-      .confirmCardPayment(clientSecret, {
-        payment_method: { card: elements.getElement(CardElement) },
-      })
-      .then(({ paymentIntent }) => {
-        //Payment intent = payment confirmation
-        db.collection("user")
-          .doc(user?.uid)
-          .collection("orders")
-          .doc(paymentIntent.id).set({basket: basket, amount: paymentIntent.amount, created: paymentIntent.created,});
-        setSucceeded(true);
-        setError(null);
+    stripe
+    .confirmCardPayment(clientSecret, {
+      payment_method: { card: elements.getElement(CardElement) },
+    })
+    .then(({ paymentIntent }) => {
+      if (!paymentIntent?.id) {
+        console.error("Payment Intent is missing or undefined");
         setProcessing(false);
-        // Empty the basket
-        emptyBasket();
-        //Redirect the user to order page
-        history.push("/orders");
-      });
+        return;
+      }
+  
+      // Proceed with storing the order in the database
+      db.collection("user")
+        .doc(user.uid)
+        .collection("orders")
+        .doc(paymentIntent.id)
+        .set({
+          basket: basket,
+          amount: paymentIntent.amount,
+          created: paymentIntent.created,
+        });
+      setSucceeded(true);
+      setError(null);
+      setProcessing(false);
+      emptyBasket();
+      history.push("/orders");
+    })
+    .catch((error) => {
+      console.error("Error in Stripe Payment:", error);
+      setError(error.message);
+      setProcessing(false);
+    });  
   };
 
   const handleChange = (e) => {
